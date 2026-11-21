@@ -6,6 +6,10 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Isaac Wu">
+<meta name="author" content="Quinn Scheider">
+<meta name="author" content="Ankit Chhikara">
+<meta name="author" content="Shrey Mudgal">
 
 <title>Predicting Student Depression Using Demographic, Academic, and Well-Being Factors</title>
 <style>
@@ -74,7 +78,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="Student_Depression_Analysis_files/libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="Student_Depression_Analysis_files/libs/bootstrap/bootstrap.min.js"></script>
 <link href="Student_Depression_Analysis_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="Student_Depression_Analysis_files/libs/bootstrap/bootstrap-62e2d20df198e8a01bb734742f2e28cf.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="Student_Depression_Analysis_files/libs/bootstrap/bootstrap-c2e55264ed47ce3b2e0326a2269f9400.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
 
 <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
@@ -119,25 +123,23 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">1. Introduction</a></li>
-  <li><a href="#methodology" id="toc-methodology" class="nav-link" data-scroll-target="#methodology">2. Methodology</a>
+  <li><a href="#summary" id="toc-summary" class="nav-link active" data-scroll-target="#summary">1. Summary</a></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction">2. Introduction</a></li>
+  <li><a href="#methodology" id="toc-methodology" class="nav-link" data-scroll-target="#methodology">3. Methodology</a>
   <ul class="collapse">
-  <li><a href="#overview-of-analytical-workflow" id="toc-overview-of-analytical-workflow" class="nav-link" data-scroll-target="#overview-of-analytical-workflow">2.1 Overview of Analytical Workflow</a></li>
-  <li><a href="#model-selection-and-evaluation-metrics" id="toc-model-selection-and-evaluation-metrics" class="nav-link" data-scroll-target="#model-selection-and-evaluation-metrics">2.2 Model Selection and Evaluation Metrics</a></li>
+  <li><a href="#overview-of-analytical-workflow" id="toc-overview-of-analytical-workflow" class="nav-link" data-scroll-target="#overview-of-analytical-workflow">3.1 Overview of Analytical Workflow</a></li>
+  <li><a href="#model-selection-and-evaluation-metrics" id="toc-model-selection-and-evaluation-metrics" class="nav-link" data-scroll-target="#model-selection-and-evaluation-metrics">3.2 Model Selection and Evaluation Metrics</a></li>
   </ul></li>
-  <li><a href="#data-loading-initial-inspection-and-preprocessing" id="toc-data-loading-initial-inspection-and-preprocessing" class="nav-link" data-scroll-target="#data-loading-initial-inspection-and-preprocessing">3. Data Loading, Initial Inspection and Preprocessing</a></li>
-  <li><a href="#exploratory-data-analysis-eda" id="toc-exploratory-data-analysis-eda" class="nav-link" data-scroll-target="#exploratory-data-analysis-eda">4. Exploratory Data Analysis (EDA)</a>
+  <li><a href="#data-loading-initial-inspection-and-preprocessing" id="toc-data-loading-initial-inspection-and-preprocessing" class="nav-link" data-scroll-target="#data-loading-initial-inspection-and-preprocessing">4. Data Loading, Initial Inspection and Preprocessing</a></li>
+  <li><a href="#exploratory-data-analysis-eda" id="toc-exploratory-data-analysis-eda" class="nav-link" data-scroll-target="#exploratory-data-analysis-eda">5. Exploratory Data Analysis (EDA)</a>
   <ul class="collapse">
-  <li><a href="#data-distribution-of-numeric-variables-grouped-by-target-variable-depression" id="toc-data-distribution-of-numeric-variables-grouped-by-target-variable-depression" class="nav-link" data-scroll-target="#data-distribution-of-numeric-variables-grouped-by-target-variable-depression">4.1 Data Distribution of Numeric variables grouped by Target variable (Depression)</a></li>
-  <li><a href="#data-distribution-of-categorical-variables-grouped-by-target-variable-depression" id="toc-data-distribution-of-categorical-variables-grouped-by-target-variable-depression" class="nav-link" data-scroll-target="#data-distribution-of-categorical-variables-grouped-by-target-variable-depression">4.2 Data Distribution of Categorical variables grouped by Target variable (Depression)</a></li>
+  <li><a href="#data-distribution-of-numeric-variables-grouped-by-target-variable-depression" id="toc-data-distribution-of-numeric-variables-grouped-by-target-variable-depression" class="nav-link" data-scroll-target="#data-distribution-of-numeric-variables-grouped-by-target-variable-depression">5.1 Data Distribution of Numeric variables grouped by Target variable (Depression)</a></li>
+  <li><a href="#data-distribution-of-categorical-variables-grouped-by-target-variable-depression" id="toc-data-distribution-of-categorical-variables-grouped-by-target-variable-depression" class="nav-link" data-scroll-target="#data-distribution-of-categorical-variables-grouped-by-target-variable-depression">5.2 Data Distribution of Categorical variables grouped by Target variable (Depression)</a></li>
   </ul></li>
-  <li><a href="#model-training" id="toc-model-training" class="nav-link" data-scroll-target="#model-training">5. Model Training</a></li>
-  <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results">6. Results</a>
-  <ul class="collapse">
-  <li><a href="#result-discussion" id="toc-result-discussion" class="nav-link" data-scroll-target="#result-discussion">Result Discussion</a></li>
-  </ul></li>
-  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">7. Summary</a></li>
-  <li><a href="#refrences" id="toc-refrences" class="nav-link" data-scroll-target="#refrences">8. Refrences</a></li>
+  <li><a href="#model-training" id="toc-model-training" class="nav-link" data-scroll-target="#model-training">6. Model Training</a></li>
+  <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results">7. Results</a></li>
+  <li><a href="#result-discussion" id="toc-result-discussion" class="nav-link" data-scroll-target="#result-discussion">8. Result Discussion</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">9. References</a></li>
   </ul>
 </nav>
 </div>
@@ -152,6 +154,15 @@ window.Quarto = {
 
 <div class="quarto-title-meta">
 
+    <div>
+    <div class="quarto-title-meta-heading">Authors</div>
+    <div class="quarto-title-meta-contents">
+             <p>Isaac Wu </p>
+             <p>Quinn Scheider </p>
+             <p>Ankit Chhikara </p>
+             <p>Shrey Mudgal </p>
+          </div>
+  </div>
     
   
     
@@ -162,26 +173,30 @@ window.Quarto = {
 </header>
 
 
+<section id="summary" class="level1">
+<h1>1. Summary</h1>
+<p>To summarize, this study analyzes the Student Depression Dataset - comprising 4,464 student records across 12 demographic, socioeconomic, academic, and personal well-being features - to identify key risk factors and predict depression status. Following data cleaning and an 80/20 train-test split to prevent data leakage, exploratory data analysis revealed an imbalanced target distribution alongside noticeable distributional shifts across academic and personal indicators such as CGPA and health status. Using a leak-free preprocessing pipeline evaluated via 5-fold stratified cross-validation, a logistic regression classifier achieved 97.1% accuracy (0.961 precision, 0.929 recall, and a 0.945 F1-score) on the held-out test set, substantially outperforming the 73.1% majority-class baseline. Model coefficients identified personal health condition as the strongest predictor—with critical health elevating depression risk and good health reducing it—followed by relationship status, marital status, family background, and social circle, highlighting the importance of prioritizing recall in future iterations to ensure at-risk students are reliably identified.</p>
+</section>
 <section id="introduction" class="level1">
-<h1>1. Introduction</h1>
+<h1>2. Introduction</h1>
 <p>Student mental health is a critical factor influencing academic performance, retention, and overall well-being in higher education. Understanding which demographic, academic, social, and lifestyle variables correlate with student depression enables universities to identify at-risk individuals early and allocate targeted support resources effectively.</p>
-<p>In this analysis, we examine the <strong>Student Depression Dataset</strong> (<code>4,464</code> student records across <code>13</code> features), which captures demographic attributes (<code>Gender</code>, <code>Age</code>, <code>Home_division</code>), socioeconomic and living conditions (<code>Family_background</code>, <code>Living_style</code>, <code>Cost_without_study</code>), academic standing (<code>Current_semester</code>, <code>CGPA</code>), and personal well-being indicators (<code>Relationship_status</code>, <code>Marital_status</code>, <code>friend_circle</code>, <code>Health_condition</code>). Our objective is to perform exploratory data analysis (EDA) to uncover key risk patterns and develop a supervised machine learning classification pipeline to predict whether a student experiences depression (<code>Depression</code>: <code>Yes</code> vs.&nbsp;<code>No</code>).</p>
-<p>Data source: <a href="https://www.kaggle.com/datasets/mkhoirulmustaqim/student-depression-detection-dataset">Kaggle</a></p>
+<p>In this analysis, we examine the <strong>Student Depression Dataset</strong> (<code>4,464</code> student records across <code>12</code> features), which captures demographic attributes (<code>Gender</code>, <code>Age</code>, <code>Home_division</code>), socioeconomic and living conditions (<code>Family_background</code>, <code>Living_style</code>, <code>Cost_without_study</code>), academic standing (<code>Current_semester</code>, <code>CGPA</code>), and personal well-being indicators (<code>Relationship_status</code>, <code>Marital_status</code>, <code>friend_circle</code>, <code>Health_condition</code>). Such survey-based samples are commonly used to estimate the prevalence and correlates of student mental health (Auerbach et al., 2018). Our objective is to perform exploratory data analysis (EDA) to uncover key risk patterns and develop a supervised machine learning classification pipeline to predict whether a student experiences depression (<code>Depression</code>: <code>Yes</code> vs.&nbsp;<code>No</code>).</p>
+<p>Data source: Student Depression Detection Dataset, by mkhoirulmustaqim (n.d.), available on <a href="https://www.kaggle.com/datasets/mkhoirulmustaqim/student-depression-detection-dataset">Kaggle</a>.</p>
 </section>
 <section id="methodology" class="level1">
-<h1>2. Methodology</h1>
+<h1>3. Methodology</h1>
 <section id="overview-of-analytical-workflow" class="level2">
-<h2 class="anchored" data-anchor-id="overview-of-analytical-workflow">2.1 Overview of Analytical Workflow</h2>
+<h2 class="anchored" data-anchor-id="overview-of-analytical-workflow">3.1 Overview of Analytical Workflow</h2>
 <ol type="1">
 <li><strong>Data Acquisition (<code>data/raw/</code>):</strong> Download the raw CSV dataset from its source URL and save an unmodified copy to <code>../data/raw/Student_Depression_Dataset.csv</code>.</li>
 <li><strong>Data Wrangling &amp; Cleaning (<code>data/processed/</code>):</strong> Standardize column names, verify data types, check for missing values or duplicate rows, encode the binary target variable (<code>Depression</code>: <code>Yes</code> <span class="math inline">\(\rightarrow 1\)</span>, <code>No</code> <span class="math inline">\(\rightarrow 0\)</span>), and export the cleaned dataset to <code>../data/processed/student_depression_clean.csv</code>.</li>
 <li><strong>Train-Test Split (The Golden Rule):</strong> Partition the dataset into an <strong>80% training set</strong> (<span class="math inline">\(n = 3,571\)</span>) and a <strong>20% held-out test set</strong> (<span class="math inline">\(n = 893\)</span>) prior to conducting any exploratory data analysis, summary statistics, or feature transformations. The test set remains strictly untouched until final model evaluation.</li>
 <li><strong>Exploratory Data Analysis (Training Set Only):</strong> Compute summary statistics and generate Altair visualizations on <code>train_df</code> to inspect class balance, numerical feature skewness, and depression rates across categorical subgroups.</li>
-<li><strong>Model Training, Cross-Validation, and Evaluation:</strong> Build a <code>scikit-learn</code> <code>ColumnTransformer</code> preprocessing pipeline inside <code>Pipeline</code> objects to avoid validation leakage, compare four candidate classifiers via 5-fold stratified cross-validation, and evaluate the top-performing model on the held-out test set.</li>
+<li><strong>Model Training, Cross-Validation, and Evaluation:</strong> Build a <code>scikit-learn</code> <code>ColumnTransformer</code> preprocessing pipeline inside <code>Pipeline</code> objects to avoid validation leakage, compare four candidate classifiers via 5-fold stratified cross-validation, and evaluate the top-performing model on the held-out test set. All modeling is implemented with the <code>scikit-learn</code> library (Pedregosa et al., 2011).</li>
 </ol>
 </section>
 <section id="model-selection-and-evaluation-metrics" class="level2">
-<h2 class="anchored" data-anchor-id="model-selection-and-evaluation-metrics">2.2 Model Selection and Evaluation Metrics</h2>
+<h2 class="anchored" data-anchor-id="model-selection-and-evaluation-metrics">3.2 Model Selection and Evaluation Metrics</h2>
 <ul>
 <li><strong>Dummy Classifier (<code>most_frequent</code>):</strong> Serves as a naive baseline predicting the majority class (<code>No</code>) for every student.</li>
 <li><strong>Logistic Regression (Standard &amp; Class-Balanced):</strong> Models the log-odds of depression as a linear combination of standardized numerical features and encoded categorical indicators, offering direct interpretability via odds ratios.</li>
@@ -189,9 +204,9 @@ window.Quarto = {
 </section>
 </section>
 <section id="data-loading-initial-inspection-and-preprocessing" class="level1">
-<h1>3. Data Loading, Initial Inspection and Preprocessing</h1>
+<h1>4. Data Loading, Initial Inspection and Preprocessing</h1>
 <p>In this section, we load the student depression dataset and inspect the first few rows to understand the structure of the features and target variable (<code>Depression</code>).</p>
-<div id="8ac32028" class="cell" data-execution_count="1">
+<div id="77a0543a" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -242,7 +257,7 @@ window.Quarto = {
 4               16693         Dhaka        Yes  </code></pre>
 </div>
 </div>
-<div id="17f05dad" class="cell" data-execution_count="2">
+<div id="7f49a114" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Clean any leading/trailing whitespace in column names</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>df.columns <span class="op">=</span> df.columns.<span class="bu">str</span>.strip()</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -287,10 +302,10 @@ Duplicate Rows: 0</code></pre>
 </div>
 </div>
 <p><em>So the data looks complete without any missing values and duplicated rows.</em> Next, we examine the distributions of our binary target variable, Depression, to check for class imbalance. Before that we shall transform the target column from string to boolean (0 and 1) and split the dataset into training and testing set.</p>
-<div id="cb3b949b" class="cell" data-execution_count="3">
+<div id="9754d367" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'Depression'</span>] <span class="op">=</span> df[<span class="st">'Depression'</span>].<span class="bu">str</span>.strip().<span class="bu">map</span>({<span class="st">'Yes'</span>: <span class="dv">1</span>, <span class="st">'No'</span>: <span class="dv">0</span>})</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>df.head()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display" data-execution_count="93">
+<div class="cell-output cell-output-display" data-execution_count="3">
 <div>
 
 
@@ -401,11 +416,11 @@ Duplicate Rows: 0</code></pre>
 </div>
 </div>
 <p>Now save it as processed data in the processed folder.</p>
-<div id="050e9c84" class="cell" data-execution_count="4">
+<div id="3fc8d0c6" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>df.to_csv(<span class="st">'../data/processed/student_depression_clean.csv'</span>, index<span class="op">=</span><span class="va">False</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Check if we revise the target correctly. Therefore, the dataset will split into training and testing set using sklearn package.</p>
-<div id="b646afb3" class="cell" data-execution_count="5">
+<div id="138dddd6" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Split DataFrame into 80% train and 20% test (before any EDA or preprocessing)</span></span>
@@ -425,7 +440,7 @@ Duplicate Rows: 0</code></pre>
 </div>
 </section>
 <section id="exploratory-data-analysis-eda" class="level1">
-<h1>4. Exploratory Data Analysis (EDA)</h1>
+<h1>5. Exploratory Data Analysis (EDA)</h1>
 <p>Following the train-test split, we conduct exploratory data analysis exclusively on the training set (train_df, <span class="math inline">\(n = 3,571\)</span>) to prevent data leakage. Specifically, we examine the class balance of the target variable (Depression) alongside the summary statistics and distributions of numerical and categorical features to identify key risk patterns and inform our preprocessing pipeline.</p>
 <div id="cell-fig-target-distribution" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> altair <span class="im">as</span> alt</span>
@@ -456,28 +471,28 @@ Duplicate Rows: 0</code></pre>
 <span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>(bars <span class="op">+</span> text)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div id="fig-target-distribution" class="cell-output cell-output-display quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="96">
+<div id="fig-target-distribution" class="cell-output cell-output-display quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="6">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-target-distribution-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 
 <style>
-  #altair-viz-6fd2545ee20844f9b2b14611db74f66a.vega-embed {
+  #altair-viz-47f2aad645af49a6896e1dfa05a363d1.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-6fd2545ee20844f9b2b14611db74f66a.vega-embed details,
-  #altair-viz-6fd2545ee20844f9b2b14611db74f66a.vega-embed details summary {
+  #altair-viz-47f2aad645af49a6896e1dfa05a363d1.vega-embed details,
+  #altair-viz-47f2aad645af49a6896e1dfa05a363d1.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-6fd2545ee20844f9b2b14611db74f66a"></div>
+<div id="altair-viz-47f2aad645af49a6896e1dfa05a363d1"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-6fd2545ee20844f9b2b14611db74f66a") {
-      outputDiv = document.getElementById("altair-viz-6fd2545ee20844f9b2b14611db74f66a");
+    if (outputDiv.id !== "altair-viz-47f2aad645af49a6896e1dfa05a363d1") {
+      outputDiv = document.getElementById("altair-viz-47f2aad645af49a6896e1dfa05a363d1");
     }
 
     const paths = {
@@ -534,7 +549,7 @@ Figure&nbsp;1: Distribution of target variable (Depression)
 </figure>
 </div>
 </div>
-<p>Obviously the dataset we have is not balanced as the portion of 1 (Depression) is almost one-third of 0(Not depression). We might need to class_weight=“balanced” to combat this problem. Therefore, let’s take a look into the distribution of numeric data and categorical features.</p>
+<p>Figure 1 shows the class distribution of the target variable. Obviously the dataset we have is not balanced as the portion of 1 (Depression) is almost one-third of 0 (Not depression). We might need to class_weight=“balanced” to combat this problem. Therefore, let’s take a look into the distribution of numeric data and categorical features. Table 1 summarizes the numerical features and Table 2 summarizes the categorical features.</p>
 <div class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Summary statistics for numerical features</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>train_df.describe()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -544,7 +559,7 @@ Figure&nbsp;1: Distribution of target variable (Depression)
 Table&nbsp;1: Description of numerical features
 </figcaption>
 <div aria-describedby="tbl-description-numeric-train-df-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="cell-output cell-output-display" data-execution_count="97">
+<div class="cell-output cell-output-display" data-execution_count="7">
 <div>
 
 
@@ -636,7 +651,7 @@ Table&nbsp;1: Description of numerical features
 <div class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>train_df.describe(include<span class="op">=</span>[<span class="st">'object'</span>, <span class="st">'category'</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>C:\Users\waiwa\AppData\Local\Temp\ipykernel_8560\3114332684.py:1: Pandas4Warning: For backward compatibility, 'str' dtypes are included by select_dtypes when 'object' dtype is specified. This behavior is deprecated and will be removed in a future version. Explicitly pass 'str' to `include` to select them, or to `exclude` to remove them and silence this warning.
+<pre><code>/var/folders/4f/8kgn7pkn095_mwfpd9v8frxh0000gn/T/ipykernel_68284/3114332684.py:1: Pandas4Warning: For backward compatibility, 'str' dtypes are included by select_dtypes when 'object' dtype is specified. This behavior is deprecated and will be removed in a future version. Explicitly pass 'str' to `include` to select them, or to `exclude` to remove them and silence this warning.
 See https://pandas.pydata.org/docs/dev/user_guide/migration.html#string-migration-select-dtypes for details on how to write code that works with pandas 2 and 3.
   train_df.describe(include=['object', 'category'])</code></pre>
 </div>
@@ -646,7 +661,7 @@ See https://pandas.pydata.org/docs/dev/user_guide/migration.html#string-migratio
 Table&nbsp;2: Description of categorical features
 </figcaption>
 <div aria-describedby="tbl-description-categoric-train-df-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="cell-output cell-output-display" data-execution_count="98">
+<div class="cell-output cell-output-display" data-execution_count="8">
 <div>
 
 
@@ -720,7 +735,7 @@ Table&nbsp;2: Description of categorical features
 </div>
 <hr>
 <section id="data-distribution-of-numeric-variables-grouped-by-target-variable-depression" class="level2">
-<h2 class="anchored" data-anchor-id="data-distribution-of-numeric-variables-grouped-by-target-variable-depression">4.1 Data Distribution of Numeric variables grouped by Target variable (Depression)</h2>
+<h2 class="anchored" data-anchor-id="data-distribution-of-numeric-variables-grouped-by-target-variable-depression">5.1 Data Distribution of Numeric variables grouped by Target variable (Depression)</h2>
 <div id="cell-fig-numeric-distribution" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>num_cols <span class="op">=</span> [c <span class="cf">for</span> c <span class="kw">in</span> train_df.select_dtypes(include<span class="op">=</span>[np.number]).columns <span class="cf">if</span> c <span class="op">!=</span> target_col]</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -757,28 +772,28 @@ Table&nbsp;2: Description of categorical features
 <div class="cell-output cell-output-stdout">
 <pre><code>['Age', 'Current_semester', 'CGPA', 'Cost_without_study']</code></pre>
 </div>
-<div id="fig-numeric-distribution" class="cell-output cell-output-display quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="99">
+<div id="fig-numeric-distribution" class="cell-output cell-output-display quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="9">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-numeric-distribution-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 
 <style>
-  #altair-viz-d261a91756e74872809caefd4bbc5c87.vega-embed {
+  #altair-viz-f51332065d0548f19c8b6ced93733222.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-d261a91756e74872809caefd4bbc5c87.vega-embed details,
-  #altair-viz-d261a91756e74872809caefd4bbc5c87.vega-embed details summary {
+  #altair-viz-f51332065d0548f19c8b6ced93733222.vega-embed details,
+  #altair-viz-f51332065d0548f19c8b6ced93733222.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-d261a91756e74872809caefd4bbc5c87"></div>
+<div id="altair-viz-f51332065d0548f19c8b6ced93733222"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-d261a91756e74872809caefd4bbc5c87") {
-      outputDiv = document.getElementById("altair-viz-d261a91756e74872809caefd4bbc5c87");
+    if (outputDiv.id !== "altair-viz-f51332065d0548f19c8b6ced93733222") {
+      outputDiv = document.getElementById("altair-viz-f51332065d0548f19c8b6ced93733222");
     }
 
     const paths = {
@@ -835,10 +850,10 @@ Figure&nbsp;2: Distribution of numeric variables
 </figure>
 </div>
 </div>
-<p>According to the density plots by various numeric variables, the distribution of <code>CGPA</code> seems to be one of the important factors affecting the level of depression for a student.</p>
+<p>Figure 2 shows the distribution of each numeric variable grouped by depression status. According to the density plots by various numeric variables, the distribution of <code>CGPA</code> seems to be one of the important factors affecting the level of depression for a student.</p>
 </section>
 <section id="data-distribution-of-categorical-variables-grouped-by-target-variable-depression" class="level2">
-<h2 class="anchored" data-anchor-id="data-distribution-of-categorical-variables-grouped-by-target-variable-depression">4.2 Data Distribution of Categorical variables grouped by Target variable (Depression)</h2>
+<h2 class="anchored" data-anchor-id="data-distribution-of-categorical-variables-grouped-by-target-variable-depression">5.2 Data Distribution of Categorical variables grouped by Target variable (Depression)</h2>
 <div id="cell-fig-categorical-distribution" class="cell" data-execution_count="10">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>cat_cols <span class="op">=</span> [c <span class="cf">for</span> c <span class="kw">in</span> train_df.select_dtypes(include<span class="op">=</span>[<span class="st">'object'</span>, <span class="st">'category'</span>]).columns <span class="cf">if</span> c <span class="op">!=</span> target_col]</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>overall_rate <span class="op">=</span> (train_df[target_col] <span class="op">==</span> <span class="dv">1</span>).mean()</span>
@@ -859,32 +874,32 @@ Figure&nbsp;2: Distribution of numeric variables
 <span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>rows <span class="op">=</span> [alt.hconcat(<span class="op">*</span>charts[i:i<span class="op">+</span><span class="dv">2</span>], spacing<span class="op">=</span><span class="dv">50</span>) <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">0</span>, <span class="bu">len</span>(charts), <span class="dv">2</span>)]</span>
 <span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>alt.vconcat(<span class="op">*</span>rows, spacing<span class="op">=</span><span class="dv">30</span>).resolve_scale(color<span class="op">=</span><span class="st">'shared'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>C:\Users\waiwa\AppData\Local\Temp\ipykernel_8560\1208540570.py:1: Pandas4Warning: For backward compatibility, 'str' dtypes are included by select_dtypes when 'object' dtype is specified. This behavior is deprecated and will be removed in a future version. Explicitly pass 'str' to `include` to select them, or to `exclude` to remove them and silence this warning.
+<pre><code>/var/folders/4f/8kgn7pkn095_mwfpd9v8frxh0000gn/T/ipykernel_68284/1208540570.py:1: Pandas4Warning: For backward compatibility, 'str' dtypes are included by select_dtypes when 'object' dtype is specified. This behavior is deprecated and will be removed in a future version. Explicitly pass 'str' to `include` to select them, or to `exclude` to remove them and silence this warning.
 See https://pandas.pydata.org/docs/dev/user_guide/migration.html#string-migration-select-dtypes for details on how to write code that works with pandas 2 and 3.
   cat_cols = [c for c in train_df.select_dtypes(include=['object', 'category']).columns if c != target_col]</code></pre>
 </div>
-<div id="fig-categorical-distribution" class="cell-output cell-output-display quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="100">
+<div id="fig-categorical-distribution" class="cell-output cell-output-display quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="10">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-categorical-distribution-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 
 <style>
-  #altair-viz-83d417c612454f0ea01b965a9f3afcd3.vega-embed {
+  #altair-viz-0c933b03e0ca45bab02398c8597cbf4e.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-83d417c612454f0ea01b965a9f3afcd3.vega-embed details,
-  #altair-viz-83d417c612454f0ea01b965a9f3afcd3.vega-embed details summary {
+  #altair-viz-0c933b03e0ca45bab02398c8597cbf4e.vega-embed details,
+  #altair-viz-0c933b03e0ca45bab02398c8597cbf4e.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-83d417c612454f0ea01b965a9f3afcd3"></div>
+<div id="altair-viz-0c933b03e0ca45bab02398c8597cbf4e"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-83d417c612454f0ea01b965a9f3afcd3") {
-      outputDiv = document.getElementById("altair-viz-83d417c612454f0ea01b965a9f3afcd3");
+    if (outputDiv.id !== "altair-viz-0c933b03e0ca45bab02398c8597cbf4e") {
+      outputDiv = document.getElementById("altair-viz-0c933b03e0ca45bab02398c8597cbf4e");
     }
 
     const paths = {
@@ -941,13 +956,13 @@ Figure&nbsp;3: Distribution of categorical variables
 </figure>
 </div>
 </div>
-<p>Given that the black dash line is the portion of depression, based on the percentage bar charts above, we can see that the distribution of <code>health condition</code> (Good in health does not include any depression cases while all students with critical health condition are depressed.), <code>marital status</code>, <code>relationship status</code>, might be prominent factors.</p>
+<p>Figure 3 shows the distribution of each categorical variable grouped by depression status. Given that the black dash line is the portion of depression, based on the percentage bar charts above, we can see that the distribution of <code>health condition</code> (Good in health does not include any depression cases while all students with critical health condition are depressed.), <code>marital status</code>, <code>relationship status</code>, might be prominent factors.</p>
 </section>
 </section>
 <section id="model-training" class="level1">
-<h1>5. Model Training</h1>
-<p>We compared standard and logisstic regression against a majority/most frequent class baseline using five-fold stratified cross-validation on the training data.</p>
-<div id="d6793557" class="cell" data-execution_count="11">
+<h1>6. Model Training</h1>
+<p>We compared standard and class-balanced logistic regression against a majority/most frequent class baseline using 5-fold stratified cross-validation on the training data.</p>
+<div id="22b6f050" class="cell" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> IPython.display <span class="im">import</span> display</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.compose <span class="im">import</span> ColumnTransformer</span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.dummy <span class="im">import</span> DummyClassifier</span>
@@ -997,8 +1012,8 @@ Figure&nbsp;3: Distribution of categorical variables
 </div>
 </section>
 <section id="results" class="level1">
-<h1>6. Results</h1>
-<p>Table 1 compares the candidate models during cross-validation. Table 2 reports held-out test performance for the selected logistic regression model and the majority-class baseline. Figure 1 shows the types of classification errors made by each model.</p>
+<h1>7. Results</h1>
+<p>Table 3 compares the candidate models during cross-validation. Table 4 reports held-out test performance for the selected logistic regression model and the majority-class baseline. Figure 4 shows the types of classification errors made by each model.</p>
 <div class="cell" data-execution_count="12">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>display(cv_results.<span class="bu">round</span>(<span class="dv">3</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div id="tbl-cv-results" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="12">
@@ -1153,11 +1168,12 @@ Figure&nbsp;4: Held-out test confusion matrices. Each cell shows the number of s
 </div>
 </div>
 </div>
-<section id="result-discussion" class="level2">
-<h2 class="anchored" data-anchor-id="result-discussion">Result Discussion</h2>
+</section>
+<section id="result-discussion" class="level1">
+<h1>8. Result Discussion</h1>
 <p>Overall, our model achieved an accuracy of 97.1% (0.971), substantially outperforming the majority-class baseline of 73.1% (0.731). The model’s precision is 0.961, indicating that when it predicts a student has depression, it is correct the vast majority of the time, resulting in very few false alarms (false positives). However, our recall is slightly lower at 0.929. Comparing these two metrics shows that the model produces more false negatives than false positives, though the gap is relatively small.</p>
 <p>Overall, the F1-score of 0.945 reflects a strong balance between precision and recall. However, for future fine-tuning, we should prioritize improving recall over precision to minimize false negatives—ensuring we do not miss students who actually have depression and need support.</p>
-<div id="831fdec7" class="cell" data-execution_count="15">
+<div id="68056ce0" class="cell" data-execution_count="15">
 <div class="cell-output cell-output-display">
 <pre><code>categorical__Health_condition_Good                   -6.178
 categorical__Health_condition_Normal                 -3.931
@@ -1174,14 +1190,8 @@ Name: Coefficient, dtype: float64</code></pre>
 </div>
 <p>The table shows the five most negative and five most positive coefficients from the logistic regression model. Health condition had the largest coefficient in both directions, ranging from −6.18 to +8.92 across the categories shown. Holding the other predictors constant, this means the model assigned very different odds of a Yes depression label depending on the student’s health-condition category. This pattern is consistent with our exploratory analysis, where no students in the “Good” category had a Yes label, while all students in the “Critical” category did.</p>
 </section>
-</section>
-<section id="summary" class="level1">
-<h1>7. Summary</h1>
-<p>To conclude, this study analyzes the Student Depression Dataset - comprising 4,464 student records across 13 demographic, socioeconomic, academic, and personal well-being features - to identify key risk factors and predict depression status. Following data cleaning and an 80/20 train-test split to prevent data leakage, exploratory data analysis revealed an imbalanced target distribution alongside noticeable distributional shifts across academic and personal indicators such as CGPA and health status. Using a leak-free preprocessing pipeline evaluated via 5-fold stratified cross-validation, a logistic regression classifier achieved 97.1% accuracy (0.961 precision, 0.929 recall, and a 0.945 F1-score) on the held-out test set, substantially outperforming the 73.1% majority-class baseline. Model coefficients identified personal health condition as the strongest predictor—with critical health elevating depression risk and good health reducing it—followed by relationship status, marital status, family background, and social circle, highlighting the importance of prioritizing recall in future iterations to ensure at-risk students are reliably identified.</p>
-</section>
-<section id="refrences" class="level1">
-<h1>8. Refrences</h1>
-<p>Refrenches Include both the data and refrences that are mentioned both in the data and on resources used and also AI models used for help in debugging code and branch/merge issues</p>
+<section id="references" class="level1">
+<h1>9. References</h1>
 <ul>
 <li><p>OpenAI. (2026). <em>ChatGPT</em> [Large language model]. https://chatgpt.com/</p></li>
 <li><p>Auerbach, R. P., et al.&nbsp;(2018). WHO World Mental Health Surveys International College Student Project: Prevalence and distribution of mental disorders. <em>Journal of Abnormal Psychology, 127</em>(7), 623–638. <a href="https://doi.org/10.1037/abn0000362">https://doi.org/10.1037/abn0000362</a></p></li>

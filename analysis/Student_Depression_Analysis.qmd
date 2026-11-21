@@ -1,6 +1,10 @@
 ---
 title: "Predicting Student Depression Using Demographic, Academic, and Well-Being Factors"
-author: Isaac Wu, Quinn Scheider, Ankit Chhikara, Shrey Mudgal
+author:
+  - Isaac Wu
+  - Quinn Scheider
+  - Ankit Chhikara
+  - Shrey Mudgal
 format:
   html:
     toc: true
@@ -33,12 +37,12 @@ Data source: Student Depression Detection Dataset, by mkhoirulmustaqim (n.d.), a
 2. **Data Wrangling & Cleaning (`data/processed/`):** Standardize column names, verify data types, check for missing values or duplicate rows, encode the binary target variable (`Depression`: `Yes` $\rightarrow 1$, `No` $\rightarrow 0$), and export the cleaned dataset to `../data/processed/student_depression_clean.csv`.
 3. **Train-Test Split (The Golden Rule):** Partition the dataset into an **80% training set** ($n = 3,571$) and a **20% held-out test set** ($n = 893$) prior to conducting any exploratory data analysis, summary statistics, or feature transformations. The test set remains strictly untouched until final model evaluation.
 4. **Exploratory Data Analysis (Training Set Only):** Compute summary statistics and generate Altair visualizations on `train_df` to inspect class balance, numerical feature skewness, and depression rates across categorical subgroups.
-5. **Model Training, Cross-Validation, and Evaluation:** Build a `scikit-learn` `ColumnTransformer` preprocessing pipeline inside `Pipeline` objects to avoid validation leakage, compare four candidate classifiers via 5-fold stratified cross-validation, and evaluate the top-performing model on the held-out test set.
+5. **Model Training, Cross-Validation, and Evaluation:** Build a `scikit-learn` `ColumnTransformer` preprocessing pipeline inside `Pipeline` objects to avoid validation leakage, compare four candidate classifiers via 5-fold stratified cross-validation, and evaluate the top-performing model on the held-out test set. All modeling is implemented with the `scikit-learn` library (Pedregosa et al., 2011).
 
 ## 3.2 Model Selection and Evaluation Metrics
 
 * **Dummy Classifier (`most_frequent`):** Serves as a naive baseline predicting the majority class (`No`) for every student.
-* **Logistic Regression (Standard & Class-Balanced):** Models the log-odds of depression as a linear combination of standardized numerical features and encoded categorical indicators, offering direct interpretability via odds ratios. (Pedregosa et al., 2011)
+* **Logistic Regression (Standard & Class-Balanced):** Models the log-odds of depression as a linear combination of standardized numerical features and encoded categorical indicators, offering direct interpretability via odds ratios.
 
 
 # 4. Data Loading, Initial Inspection and Preprocessing
@@ -179,8 +183,8 @@ text = bars.mark_text(
 
 
 
-Obviously the dataset we have is not balanced as the portion of 1 (Depression) is almost one-third of 0(Not depression). We might need to class_weight="balanced" to combat this problem.
-Therefore,  let's take a look into the distribution of numeric data and categorical features.
+Figure 1 shows the class distribution of the target variable. Obviously the dataset we have is not balanced as the portion of 1 (Depression) is almost one-third of 0 (Not depression). We might need to class_weight="balanced" to combat this problem.
+Therefore, let's take a look into the distribution of numeric data and categorical features. Table 1 summarizes the numerical features and Table 2 summarizes the categorical features.
 
 ```{python}
 #| label: tbl-description-numeric-train-df
@@ -247,7 +251,7 @@ alt.vconcat(*rows).resolve_scale(color='shared')
 
 
 
-According to the density plots by various numeric variables, the distribution of `CGPA` seems to be one of the important factors affecting the level of depression for a student.
+Figure 2 shows the distribution of each numeric variable grouped by depression status. According to the density plots by various numeric variables, the distribution of `CGPA` seems to be one of the important factors affecting the level of depression for a student.
 
 
 ## 5.2 Data Distribution of Categorical variables grouped by Target variable (Depression)
@@ -280,11 +284,11 @@ alt.vconcat(*rows, spacing=30).resolve_scale(color='shared')
 
 
 
-Given that the black dash line is the portion of depression, based on the percentage bar charts above, we can see that the distribution of `health condition` (Good in health does not include any depression cases while all students with critical health condition are depressed.), `marital status`, `relationship status`, might be prominent factors.
+Figure 3 shows the distribution of each categorical variable grouped by depression status. Given that the black dash line is the portion of depression, based on the percentage bar charts above, we can see that the distribution of `health condition` (Good in health does not include any depression cases while all students with critical health condition are depressed.), `marital status`, `relationship status`, might be prominent factors.
 
 # 6. Model Training
 
-We compared standard and logisstic regression against a majority/most frequent class baseline using five-fold stratified cross-validation on the training data. 
+We compared standard and class-balanced logistic regression against a majority/most frequent class baseline using 5-fold stratified cross-validation on the training data. 
 
 ```{python}
 from IPython.display import display
@@ -340,9 +344,9 @@ selected_name = cv_results.loc[
 
 # 7. Results
 
-Table 1 compares the candidate models during cross-validation. Table 2
+Table 3 compares the candidate models during cross-validation. Table 4
 reports held-out test performance for the selected logistic regression
-model and the majority-class baseline. Figure 1 shows the types of
+model and the majority-class baseline. Figure 4 shows the types of
 classification errors made by each model.
 
 ```{python}
