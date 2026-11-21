@@ -1,0 +1,14 @@
+project:
+  render:
+    - reports/*.qmd
+
+format:
+  html:
+    embed-resources: true
+    toc: true
+    toc-depth: 3
+    number-sections: true
+    code-fold: false
+    theme: cosmo
+  typst:
+    fig-format: png

@@ -5,7 +5,7 @@ This outlines how to propose a change to the Student Depression Predictor projec
 ### Fixing typos
 
 Small edits can be made in the GitHub web interface in the `.qmd` source file,
-but make sure you render the analysis and the website to confirm that your edits
+but make sure you render the report to confirm that your edits
 are correct.
 
 ### Prerequisites
@@ -21,15 +21,21 @@ Install [uv](https://docs.astral.sh/uv/getting-started/installation/) and
 create the virtual environment from the root of the repository:
 
 ``` bash
-git clone https://github.com/UBC-MDS-2026-27/DSCI-522-Group-24.git
-cd DSCI-522-Group-24
+git clone https://github.com/UBC-MDS-2026-27/DSCI-522-Group-24-Predicting-Student-Depression.git
+cd DSCI-522-Group-24-Predicting-Student-Depression
 uv sync
 ```
 
-To re-run the analysis and render the report:
+To render the HTML and PDF reports:
 
 ``` bash
-uv run quarto render analysis/Student_Depression_Analysis.qmd
+uv run quarto render
+```
+
+To preview the report while editing:
+
+``` bash
+uv run quarto preview reports/Student_Depression_Analysis.qmd
 ```
 
 If your change needs a new Python package, add it with `uv add <package>`
@@ -49,6 +55,10 @@ and commit both files.
 7. Create an issue or ask a team member to review your pull request.
 8. Wait for one person to review the pull request, and only merge it once it has
    been reviewed.
+
+### Using AI
+
+You can use tools like ChatGPT or Claude to help with code writing and/or understanding, or fixing unexpected errors. Please make sure you understand and check the results as you are responsible for the code you put into your branch and pull request. Please mention what tool you used and what you used it for in your pull request description. Opening issues, opening pull requests, reviewing and merging pull requests must be executed by humans, not AI tools.
 
 ### Code of Conduct
 

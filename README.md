@@ -16,7 +16,7 @@ On the held-out test set, logistic regression achieved an accuracy of 0.971, pre
 
 ## Report
 
-Read the [HTML report](analysis/Student_Depression_Analysis.html), or view its editable [Quarto source](analysis/Student_Depression_Analysis.qmd).
+Read the [published HTML report](https://ubc-mds-2026-27.github.io/DSCI-522-Group-24-Predicting-Student-Depression/reports/Student_Depression_Analysis.html) or open the [PDF report](reports/Student_Depression_Analysis.pdf). The editable [Quarto source](reports/Student_Depression_Analysis.qmd) is also available.
 
 ## Usage
 
@@ -35,13 +35,13 @@ Create the project environment and install its dependencies:
 uv sync
 ```
 
-Render the report from the repository root:
+Render the HTML and PDF reports from the repository root:
 
 ```bash
-uv run quarto render analysis/Student_Depression_Analysis.qmd
+uv run quarto render
 ```
 
-The report is written to `analysis/Student_Depression_Analysis.html`. The raw dataset is included at `data/raw/Student_Depression_Dataset.csv`. If the raw file is unavailable, the analysis code downloads it from Kaggle using `kagglehub`, which requires an internet connection.
+The reports are written next to their source in `reports/`. The HTML is self-contained. The raw dataset is included at `data/raw/Student_Depression_Dataset.csv`. If the raw file is unavailable, the analysis code downloads it from Kaggle using `kagglehub`, which requires an internet connection.
 
 ## Dependencies
 
@@ -65,6 +65,13 @@ If you encounter a `403 Forbidden` or rate-limit error during the fallback downl
 
 We used [ChatGPT](https://chatgpt.com/) GPT-6 to resolve Git-related merge conflicts, explain error messages and other code-related issues, and assist with writing and debugging code for our analysis. We used [DeepSeek](https://www.deepseek.com/en/) 4.1 Flash to draft and revise the repository documentation, specifically [`CONTRIBUTING.md`](CONTRIBUTING.md) and [`LICENSE.md`](LICENSE.md); DeepSeek was not used in the data analysis. In addition, we used Gemini for checking grammars and documentations. All AI-generated changes were reviewed, tested, and edited by the authors, who take full responsibility for the content of this repository.
 
+Example prompts:
+
+- “Are there any remaining issues with the YAML header, Python setup chunk, or citations?”
+- “What does `git pull --ff-only` do, and when should I use it?”
+- “I have started my work, i already created a branch locally and i have edited the code of conduct .md file. However, i did a merging on the comment regarding the report. Do i need to pull again since there might be changes when i want to push, What do you advice just to avoid merge conflicts.”
+- “Instead of me saying almost always 3, can i use proportion, then the 2 charts in the middle of my plot is shifted, anything wrong with my code?”
+
 ## License
 
 The analysis report is licensed under [CC BY-NC-ND 4.0](https://creativecommons.org/licenses/by-nc-nd/4.0/), and the software code is licensed under the [MIT License](LICENSE.md). See [`LICENSE.md`](LICENSE.md) for the full terms.
@@ -72,4 +79,4 @@ The analysis report is licensed under [CC BY-NC-ND 4.0](https://creativecommons.
 ## References
 
 - mkhoirulmustaqim. (n.d.). *Student Depression Detection Dataset* [Data set]. Kaggle. [Dataset page](https://www.kaggle.com/datasets/mkhoirulmustaqim/student-depression-detection-dataset).
-- Additional research, software, and AI references are listed in the [analysis report](analysis/Student_Depression_Analysis.html).
+- Additional research, software, and AI references are listed in the [analysis report](reports/Student_Depression_Analysis.html).
