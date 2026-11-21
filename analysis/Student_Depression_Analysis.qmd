@@ -9,6 +9,9 @@ format:
 jupyter: python3
 ---
 
+
+
+
 # 1. Introduction
 
 Student mental health is a critical factor influencing academic performance, retention, and overall well-being in higher education.
@@ -68,9 +71,7 @@ if not os.path.exists(raw_path):
 df = pd.read_csv(raw_path)
 
 print(df.head())
-
 ```
-
 
 ```{python}
 # Clean any leading/trailing whitespace in column names
@@ -87,6 +88,9 @@ print(missing[missing > 0] if missing.sum() > 0 else "No missing values detected
 print(f"\nDuplicate Rows: {df.duplicated().sum()}")
 ```
 
+
+
+
 *So the data looks complete without any missing values and duplicated rows.*
 Next, we examine the distributions of our binary target variable, Depression, to check for class imbalance. Before that we shall transform the target column from string to boolean (0 and 1) and split the dataset into training and testing set.
 
@@ -94,10 +98,17 @@ Next, we examine the distributions of our binary target variable, Depression, to
 df['Depression'] = df['Depression'].str.strip().map({'Yes': 1, 'No': 0})
 df.head()
 ```
+
+
+
 Now save it as processed data in the processed folder.
+
 ```{python}
 df.to_csv('../data/processed/student_depression_clean.csv', index=False)
 ```
+
+
+
 
 Check if we revise the target correctly. Therefore, the dataset will split into training and testing set using sklearn package.
 
@@ -121,15 +132,22 @@ y_test = test_df['Depression']
 ```
 
 
+
+
+
 # 4. Exploratory Data Analysis (EDA)
 
 Following the train-test split, we conduct exploratory data analysis exclusively on the training set (train_df, $n = 3,571$) to prevent data leakage. Specifically, we examine the class balance of the target variable (Depression) alongside the summary statistics and distributions of numerical and categorical features to identify key risk patterns and inform our preprocessing pipeline.
 
 ```{python}
+#| label: fig-target-distribution
+#| fig-cap: "Distribution of target variable (Depression)"
+
 import altair as alt
 
 # Allow Altair to render datasets with >5,000 rows
 alt.data_transformers.disable_max_rows()
+alt.renderers.enable('html')
 
 target_col = 'Depression'
 
@@ -153,29 +171,43 @@ text = bars.mark_text(
 )
 
 (bars + text)
-
 ```
+
+
+
 
 
 Obviously the dataset we have is not balanced as the portion of 1 (Depression) is almost one-third of 0(Not depression). We might need to class_weight="balanced" to combat this problem.
 Therefore,  let's take a look into the distribution of numeric data and categorical features.
 
 ```{python}
+#| label: tbl-description-numeric-train-df
+#| tbl-cap: "Description of numerical features"
+
 
 # Summary statistics for numerical features
 train_df.describe()
-
 ```
 
 ```{python}
+#| label: tbl-description-categoric-train-df
+#| tbl-cap: "Description of categorical features"
+
+
 train_df.describe(include=['object', 'category'])
 ```
+
+
+
 
 
 --- 
 ## 4.1 Data Distribution of Numeric variables grouped by Target variable (Depression)
 
 ```{python}
+#| label: fig-numeric-distribution
+#| fig-cap: "Distribution of numeric variables"
+
 
 num_cols = [c for c in train_df.select_dtypes(include=[np.number]).columns if c != target_col]
 
@@ -209,16 +241,20 @@ if num_cols:
         rows.append(alt.hconcat(dens, box))
 
 alt.vconcat(*rows).resolve_scale(color='shared')
-
 ```
+
+
+
 According to the density plots by various numeric variables, the distribution of `CGPA` seems to be one of the important factors affecting the level of depression for a student.
 
 
 ## 4.2 Data Distribution of Categorical variables grouped by Target variable (Depression)
 
-
-
 ```{python}
+#| label: fig-categorical-distribution
+#| fig-cap: "Distribution of categorical variables"
+
+
 cat_cols = [c for c in train_df.select_dtypes(include=['object', 'category']).columns if c != target_col]
 overall_rate = (train_df[target_col] == 1).mean()
 
@@ -238,6 +274,9 @@ for col in cat_cols:
 rows = [alt.hconcat(*charts[i:i+2], spacing=50) for i in range(0, len(charts), 2)]
 alt.vconcat(*rows, spacing=30).resolve_scale(color='shared')
 ```
+
+
+
 
 Given that the black dash line is the portion of depression, based on the percentage bar charts above, we can see that the distribution of `health condition` (Good in health does not include any depression cases while all students with critical health condition are depressed.), `marital status`, `relationship status`, might be prominent factors.
 
@@ -293,6 +332,9 @@ selected_name = cv_results.loc[
     list(logistic_models), "Mean validation F1"
 ].idxmax()
 ```
+
+
+
 
 # 6. Results
 
@@ -363,6 +405,9 @@ for ax, (name, predictions) in zip(axes, test_predictions.items()):
 plt.show()
 ```
 
+
+
+
 ## Result Discussion
 
 Overall, our model achieved an accuracy of 97.1% (0.971), substantially outperforming the majority-class baseline of 73.1% (0.731). The model's precision is 0.961, indicating that when it predicts a student has depression, it is correct the vast majority of the time, resulting in very few false alarms (false positives). However, our recall is slightly lower at 0.929. Comparing these two metrics shows that the model produces more false negatives than false positives, though the gap is relatively small.
@@ -384,9 +429,20 @@ coefficients = pd.Series(
 display(pd.concat([coefficients.head(5), coefficients.tail(5)]).round(3))
 ```
 
+
+
+
 The table shows the five most negative and five most positive coefficients from the logistic regression model. Health condition had the largest coefficient in both directions, ranging from −6.18 to +8.92 across the categories shown. Holding the other predictors constant, this means the model assigned very different odds of a Yes depression label depending on the student’s health-condition category. This pattern is consistent with our exploratory analysis, where no students in the “Good” category had a Yes label, while all students in the “Critical” category did.
 
-# 7. Refrences
+
+# 7. Summary
+
+To conclude, this study analyzes the Student Depression Dataset - comprising 4,464 student records across 13 demographic, socioeconomic, academic, and personal well-being features - to identify key risk factors and predict depression status. Following data cleaning and an 80/20 train-test split to prevent data leakage, exploratory data analysis revealed an imbalanced target distribution alongside noticeable distributional shifts across academic and personal indicators such as CGPA and health status. Using a leak-free preprocessing pipeline evaluated via 5-fold stratified cross-validation, a logistic regression classifier achieved 97.1% accuracy (0.961 precision, 0.929 recall, and a 0.945 F1-score) on the held-out test set, substantially outperforming the 73.1% majority-class baseline. Model coefficients identified personal health condition as the strongest predictor—with critical health elevating depression risk and good health reducing it—followed by relationship status, marital status, family background, and social circle, highlighting the importance of prioritizing recall in future iterations to ensure at-risk students are reliably identified.
+
+
+
+
+# 8. Refrences
 
 Refrenches Include both the data and refrences that are mentioned both in the data and on resources used and also AI models used for help in debugging code and branch/merge issues
 
