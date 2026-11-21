@@ -21,12 +21,10 @@ To summarize, this study analyzes the Student Depression Dataset - comprising 4,
 Student mental health is a critical factor influencing academic performance, retention, and overall well-being in higher education.
 Understanding which demographic, academic, social, and lifestyle variables correlate with student depression enables universities to identify at-risk individuals early and allocate targeted support resources effectively.
 
-In this analysis, we examine the **Student Depression Dataset** (`4,464` student records across `12` features), which captures demographic attributes (`Gender`, `Age`, `Home_division`), socioeconomic and living conditions (`Family_background`, `Living_style`, `Cost_without_study`), academic standing (`Current_semester`, `CGPA`), and personal well-being indicators (`Relationship_status`, `Marital_status`, `friend_circle`, `Health_condition`). 
+In this analysis, we examine the **Student Depression Dataset** (`4,464` student records across `12` features), which captures demographic attributes (`Gender`, `Age`, `Home_division`), socioeconomic and living conditions (`Family_background`, `Living_style`, `Cost_without_study`), academic standing (`Current_semester`, `CGPA`), and personal well-being indicators (`Relationship_status`, `Marital_status`, `friend_circle`, `Health_condition`). Such survey-based samples are commonly used to estimate the prevalence and correlates of student mental health (Auerbach et al., 2018).
 Our objective is to perform exploratory data analysis (EDA) to uncover key risk patterns and develop a supervised machine learning classification pipeline to predict whether a student experiences depression (`Depression`: `Yes` vs. `No`).
 
-Data source: [Kaggle](https://www.kaggle.com/datasets/mkhoirulmustaqim/student-depression-detection-dataset)
-
-
+Data source: Student Depression Detection Dataset, by mkhoirulmustaqim (n.d.), available on [Kaggle](https://www.kaggle.com/datasets/mkhoirulmustaqim/student-depression-detection-dataset).
 
 # 3. Methodology
 
@@ -40,7 +38,7 @@ Data source: [Kaggle](https://www.kaggle.com/datasets/mkhoirulmustaqim/student-d
 ## 3.2 Model Selection and Evaluation Metrics
 
 * **Dummy Classifier (`most_frequent`):** Serves as a naive baseline predicting the majority class (`No`) for every student.
-* **Logistic Regression (Standard & Class-Balanced):** Models the log-odds of depression as a linear combination of standardized numerical features and encoded categorical indicators, offering direct interpretability via odds ratios.
+* **Logistic Regression (Standard & Class-Balanced):** Models the log-odds of depression as a linear combination of standardized numerical features and encoded categorical indicators, offering direct interpretability via odds ratios. (Pedregosa et al., 2011)
 
 
 # 4. Data Loading, Initial Inspection and Preprocessing
