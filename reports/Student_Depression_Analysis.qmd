@@ -434,6 +434,12 @@ display(pd.concat([coefficients.head(5), coefficients.tail(5)]).round(3))
 
 @tbl-coefficients shows the five most negative and five most positive coefficients from the logistic regression model. Health condition had the largest coefficient in both directions, ranging from −6.18 to +8.92 across the categories shown. Holding the other predictors constant, this means the model assigned very different odds of a Yes depression label depending on the student’s health-condition category. This pattern is consistent with our exploratory analysis, where no students in the “Good” category had a Yes label, while all students in the “Critical” category did.
 
+## Limitations and implications
+
+In the training data, every record in the “Critical” health-condition category was labeled “Yes” for depression, and every record in the “Good” category was labeled “No.” This close alignment may help explain why logistic regression achieved a test F1 score of 0.945. Our interpretation assumes that health condition was measured independently of the depression label and would be available at prediction time. If the health-condition rating incorporated information used to assign the depression label, the reported score could overstate performance in settings where that information is unavailable.
+
+The held-out test set came from the same dataset as the training set, so we do not know how well the model would perform at other institutions. The model’s recall of 0.929 also means it missed about 7% of test records labeled “Yes.” A next step would be to evaluate the model on a deeper level and look at whether a different decision improves the recall while keeping false positives at a lower rate than the results originally showed.
+
 # References
 
 - OpenAI. (2026). *ChatGPT* [Large language model]. https://chatgpt.com/
