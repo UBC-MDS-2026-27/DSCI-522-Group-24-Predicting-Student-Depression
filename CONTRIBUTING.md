@@ -21,7 +21,7 @@ Install [uv](https://docs.astral.sh/uv/getting-started/installation/) and
 create the virtual environment from the root of the repository:
 
 ``` bash
-git clone https://github.com/UBC-MDS-2026-27/DSCI-522-Group-24.git
+git clone https://github.com/UBC-MDS-2026-27/DSCI-522-Group-24-Predicting-Student-Depression.git
 cd DSCI-522-Group-24
 uv sync
 ```
