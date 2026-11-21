@@ -5,22 +5,17 @@ author:
   - Quinn Scheider
   - Ankit Chhikara
   - Shrey Mudgal
-format:
-  html:
-    toc: true
-    code-fold: false
-    theme: cosmo
 jupyter: python3
 ---
 
 
 
-# 1. Summary
+# Summary
 
 To summarize, this study analyzes the Student Depression Dataset - comprising 4,464 student records across 12 demographic, socioeconomic, academic, and personal well-being features - to identify key risk factors and predict depression status. Following data cleaning and an 80/20 train-test split to prevent data leakage, exploratory data analysis revealed an imbalanced target distribution alongside noticeable distributional shifts across academic and personal indicators such as CGPA and health status. Using a leak-free preprocessing pipeline evaluated via 5-fold stratified cross-validation, a logistic regression classifier achieved 97.1% accuracy (0.961 precision, 0.929 recall, and a 0.945 F1-score) on the held-out test set, substantially outperforming the 73.1% majority-class baseline. Model coefficients identified personal health condition as the strongest predictor—with critical health elevating depression risk and good health reducing it—followed by relationship status, marital status, family background, and social circle, highlighting the importance of prioritizing recall in future iterations to ensure at-risk students are reliably identified.
 
 
-# 2. Introduction
+# Introduction
 
 Student mental health is a critical factor influencing academic performance, retention, and overall well-being in higher education.
 Understanding which demographic, academic, social, and lifestyle variables correlate with student depression enables universities to identify at-risk individuals early and allocate targeted support resources effectively.
@@ -30,22 +25,22 @@ Our objective is to perform exploratory data analysis (EDA) to uncover key risk 
 
 Data source: Student Depression Detection Dataset, by mkhoirulmustaqim (n.d.), available on [Kaggle](https://www.kaggle.com/datasets/mkhoirulmustaqim/student-depression-detection-dataset).
 
-# 3. Methodology
+# Methodology
 
-## 3.1 Overview of Analytical Workflow
+## Overview of Analytical Workflow
 1. **Data Acquisition (`data/raw/`):** Download the raw CSV dataset from its source URL and save an unmodified copy to `../data/raw/Student_Depression_Dataset.csv`.
 2. **Data Wrangling & Cleaning (`data/processed/`):** Standardize column names, verify data types, check for missing values or duplicate rows, encode the binary target variable (`Depression`: `Yes` $\rightarrow 1$, `No` $\rightarrow 0$), and export the cleaned dataset to `../data/processed/student_depression_clean.csv`.
 3. **Train-Test Split (The Golden Rule):** Partition the dataset into an **80% training set** ($n = 3,571$) and a **20% held-out test set** ($n = 893$) prior to conducting any exploratory data analysis, summary statistics, or feature transformations. The test set remains strictly untouched until final model evaluation.
 4. **Exploratory Data Analysis (Training Set Only):** Compute summary statistics and generate Altair visualizations on `train_df` to inspect class balance, numerical feature skewness, and depression rates across categorical subgroups.
 5. **Model Training, Cross-Validation, and Evaluation:** Build a `scikit-learn` `ColumnTransformer` preprocessing pipeline inside `Pipeline` objects to avoid validation leakage, compare four candidate classifiers via 5-fold stratified cross-validation, and evaluate the top-performing model on the held-out test set. All modeling is implemented with the `scikit-learn` library (Pedregosa et al., 2011).
 
-## 3.2 Model Selection and Evaluation Metrics
+## Model Selection and Evaluation Metrics
 
 * **Dummy Classifier (`most_frequent`):** Serves as a naive baseline predicting the majority class (`No`) for every student.
 * **Logistic Regression (Standard & Class-Balanced):** Models the log-odds of depression as a linear combination of standardized numerical features and encoded categorical indicators, offering direct interpretability via odds ratios.
 
 
-# 4. Data Loading, Initial Inspection and Preprocessing
+# Data Loading, Initial Inspection and Preprocessing
 
 In this section, we load the student depression dataset and inspect the first few rows to understand the structure of the features and target variable (`Depression`).
 
@@ -141,7 +136,7 @@ y_test = test_df['Depression']
 
 
 
-# 5. Exploratory Data Analysis (EDA)
+# Exploratory Data Analysis (EDA)
 
 Following the train-test split, we conduct exploratory data analysis exclusively on the training set (train_df, $n = 3,571$) to prevent data leakage. Specifically, we examine the class balance of the target variable (Depression) alongside the summary statistics and distributions of numerical and categorical features to identify key risk patterns and inform our preprocessing pipeline.
 
@@ -183,8 +178,8 @@ text = bars.mark_text(
 
 
 
-Figure 1 shows the class distribution of the target variable. Obviously the dataset we have is not balanced as the portion of 1 (Depression) is almost one-third of 0 (Not depression). We might need to class_weight="balanced" to combat this problem.
-Therefore, let's take a look into the distribution of numeric data and categorical features. Table 1 summarizes the numerical features and Table 2 summarizes the categorical features.
+@fig-target-distribution shows the class distribution of the target variable. The dataset is not balanced: the proportion of students with depression is about one-third of the proportion without depression. A class-weighted model may help address this imbalance.
+Next, we examine the distributions of numeric data and categorical features. @tbl-description-numeric-train-df summarizes the numerical features, and @tbl-description-categoric-train-df summarizes the categorical features.
 
 ```{python}
 #| label: tbl-description-numeric-train-df
@@ -207,8 +202,8 @@ train_df.describe(include=['object', 'category'])
 
 
 
---- 
-## 5.1 Data Distribution of Numeric variables grouped by Target variable (Depression)
+---
+## Data Distribution of Numeric Variables Grouped by Depression Status
 
 ```{python}
 #| label: fig-numeric-distribution
@@ -251,10 +246,10 @@ alt.vconcat(*rows).resolve_scale(color='shared')
 
 
 
-Figure 2 shows the distribution of each numeric variable grouped by depression status. According to the density plots by various numeric variables, the distribution of `CGPA` seems to be one of the important factors affecting the level of depression for a student.
+@fig-numeric-distribution shows the distribution of each numeric variable grouped by depression status. The distribution of `CGPA` appears to differ by depression status.
 
 
-## 5.2 Data Distribution of Categorical variables grouped by Target variable (Depression)
+## Data Distribution of Categorical Variables Grouped by Depression Status
 
 ```{python}
 #| label: fig-categorical-distribution
@@ -274,7 +269,7 @@ for col in cat_cols:
         tooltip=[col, target_col, 'count()']
     )
     rule = alt.Chart(pd.DataFrame({'r': [overall_rate]})).mark_rule(strokeDash=[4, 4], size=1.5).encode(x='r:Q')
-    
+
     charts.append((bars + rule).properties(width=260, height=alt.Step(30), title=col.replace('_', ' ')))
 
 rows = [alt.hconcat(*charts[i:i+2], spacing=50) for i in range(0, len(charts), 2)]
@@ -284,11 +279,11 @@ alt.vconcat(*rows, spacing=30).resolve_scale(color='shared')
 
 
 
-Figure 3 shows the distribution of each categorical variable grouped by depression status. Given that the black dash line is the portion of depression, based on the percentage bar charts above, we can see that the distribution of `health condition` (Good in health does not include any depression cases while all students with critical health condition are depressed.), `marital status`, `relationship status`, might be prominent factors.
+@fig-categorical-distribution shows the distribution of each categorical variable grouped by depression status. The health-condition, marital-status, and relationship-status categories appear to be associated with depression in this dataset.
 
-# 6. Model Training
+# Model Training
 
-We compared standard and class-balanced logistic regression against a majority/most frequent class baseline using 5-fold stratified cross-validation on the training data. 
+We compared standard and class-balanced logistic regression against a majority/most frequent class baseline using 5-fold stratified cross-validation on the training data.
 
 ```{python}
 from IPython.display import display
@@ -342,12 +337,9 @@ selected_name = cv_results.loc[
 
 
 
-# 7. Results
+# Results
 
-Table 3 compares the candidate models during cross-validation. Table 4
-reports held-out test performance for the selected logistic regression
-model and the majority-class baseline. Figure 4 shows the types of
-classification errors made by each model.
+@tbl-cv-results compares the candidate models during cross-validation. @tbl-test-results reports held-out test performance for the selected logistic regression model and the majority-class baseline. @fig-confusion-matrices shows the types of classification errors made by each model.
 
 ```{python}
 #| label: tbl-cv-results
@@ -414,7 +406,7 @@ plt.show()
 
 
 
-# 8. Result Discussion
+# Result Discussion
 
 Overall, our model achieved an accuracy of 97.1% (0.971), substantially outperforming the majority-class baseline of 73.1% (0.731). The model's precision is 0.961, indicating that when it predicts a student has depression, it is correct the vast majority of the time, resulting in very few false alarms (false positives). However, our recall is slightly lower at 0.929. Comparing these two metrics shows that the model produces more false negatives than false positives, though the gap is relatively small.
 
@@ -422,6 +414,8 @@ Overall, the F1-score of 0.945 reflects a strong balance between precision and r
 
 ```{python}
 #| echo: false
+#| label: tbl-coefficients
+#| tbl-cap: "Five most negative and five most positive logistic regression coefficients."
 fitted_model = models[selected_name]
 preprocessor = fitted_model.named_steps["columntransformer"]
 classifier = fitted_model.named_steps["logisticregression"]
@@ -438,11 +432,9 @@ display(pd.concat([coefficients.head(5), coefficients.tail(5)]).round(3))
 
 
 
-The table shows the five most negative and five most positive coefficients from the logistic regression model. Health condition had the largest coefficient in both directions, ranging from −6.18 to +8.92 across the categories shown. Holding the other predictors constant, this means the model assigned very different odds of a Yes depression label depending on the student’s health-condition category. This pattern is consistent with our exploratory analysis, where no students in the “Good” category had a Yes label, while all students in the “Critical” category did.
+@tbl-coefficients shows the five most negative and five most positive coefficients from the logistic regression model. Health condition had the largest coefficient in both directions, ranging from −6.18 to +8.92 across the categories shown. Holding the other predictors constant, this means the model assigned very different odds of a Yes depression label depending on the student’s health-condition category. This pattern is consistent with our exploratory analysis, where no students in the “Good” category had a Yes label, while all students in the “Critical” category did.
 
-
-
-# 9. References
+# References
 
 - OpenAI. (2026). *ChatGPT* [Large language model]. https://chatgpt.com/
 
