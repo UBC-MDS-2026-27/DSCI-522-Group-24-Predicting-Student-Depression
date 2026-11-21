@@ -50,6 +50,10 @@ and commit both files.
 8. Wait for one person to review the pull request, and only merge it once it has
    been reviewed.
 
+### Using AI
+
+You can use tools like ChatGPT or Claude to help with code writing and/or understanding, or fixing unexpected errors. Please make sure you understand and check the results as you are responsible for the code you put into your branch and pull request. Please mention what tool you used and what you used it for in your pull request description. Opening issues, opening pull requests, reviewing and merging pull requests must be executed by humans, not AI tools.
+
 ### Code of Conduct
 
 Please note that this project is released with a [Contributor Code of
