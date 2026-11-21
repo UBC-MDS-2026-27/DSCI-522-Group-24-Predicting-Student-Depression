@@ -1,6 +1,6 @@
 ---
 title: "Predicting Student Depression Using Demographic, Academic, and Well-Being Factors"
-Author: Isaac Wu, Quinn Scheider, Ankit Chhikara, Shrey Mudgal
+author: Isaac Wu, Quinn Scheider, Ankit Chhikara, Shrey Mudgal
 format:
   html:
     toc: true
