@@ -16,7 +16,7 @@ On the held-out test set, logistic regression achieved an accuracy of 0.971, pre
 
 ## Report
 
-Read the [HTML report](analysis/Student_Depression_Analysis.html), or view its editable [Quarto source](analysis/Student_Depression_Analysis.qmd).
+Read the [published HTML report](https://ubc-mds-2026-27.github.io/DSCI-522-Group-24-Predicting-Student-Depression/reports/Student_Depression_Analysis.html) or open the [PDF report](reports/Student_Depression_Analysis.pdf). The editable [Quarto source](reports/Student_Depression_Analysis.qmd) is also available.
 
 ## Usage
 
@@ -35,13 +35,13 @@ Create the project environment and install its dependencies:
 uv sync
 ```
 
-Render the report from the repository root:
+Render the HTML and PDF reports from the repository root:
 
 ```bash
-uv run quarto render analysis/Student_Depression_Analysis.qmd
+uv run quarto render
 ```
 
-The report is written to `analysis/Student_Depression_Analysis.html`. The raw dataset is included at `data/raw/Student_Depression_Dataset.csv`. If the raw file is unavailable, the analysis code downloads it from Kaggle using `kagglehub`, which requires an internet connection.
+The reports are written next to their source in `reports/`. The HTML is self-contained. The raw dataset is included at `data/raw/Student_Depression_Dataset.csv`. If the raw file is unavailable, the analysis code downloads it from Kaggle using `kagglehub`, which requires an internet connection.
 
 ## Dependencies
 
@@ -61,4 +61,4 @@ The analysis report is licensed under [CC BY-NC-ND 4.0](https://creativecommons.
 ## References
 
 - mkhoirulmustaqim. (n.d.). *Student Depression Detection Dataset* [Data set]. Kaggle. [Dataset page](https://www.kaggle.com/datasets/mkhoirulmustaqim/student-depression-detection-dataset).
-- Additional research, software, and AI references are listed in the [analysis report](analysis/Student_Depression_Analysis.html).
+- Additional research, software, and AI references are listed in the [analysis report](reports/Student_Depression_Analysis.html).
