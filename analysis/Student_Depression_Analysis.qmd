@@ -12,13 +12,15 @@ jupyter: python3
 
 
 
+
 # 1. Introduction
 
 Student mental health is a critical factor influencing academic performance, retention, and overall well-being in higher education.
 Understanding which demographic, academic, social, and lifestyle variables correlate with student depression enables universities to identify at-risk individuals early and allocate targeted support resources effectively.
 
 In this analysis, we examine the **Student Depression Dataset** (`4,464` student records across `13` features), which captures demographic attributes (`Gender`, `Age`, `Home_division`), socioeconomic and living conditions (`Family_background`, `Living_style`, `Cost_without_study`), academic standing (`Current_semester`, `CGPA`), and personal well-being indicators (`Relationship_status`, `Marital_status`, `friend_circle`, `Health_condition`). 
-Our objective is to perform exploratory data analysis (EDA) to uncover key risk patterns and develop a supervised machine learning classification pipeline to predict whether a student experiences depression (`Depression`: `Yes` vs. `No`).
+Specifically, this study addresses the following research question: To what extent can demographic, socioeconomic, academic, and self-reported well-being features accurately predict a student's recorded depression label (Depression: Yes vs. No) in this survey dataset? 
+Note that this predictive task aims solely to classify the binary outcome label recorded in the dataset for early risk screening, rather than providing a clinical or medical diagnosis of depression.
 
 Data source: [Kaggle](https://www.kaggle.com/datasets/mkhoirulmustaqim/student-depression-detection-dataset)
 
@@ -31,12 +33,12 @@ Data source: [Kaggle](https://www.kaggle.com/datasets/mkhoirulmustaqim/student-d
 2. **Data Wrangling & Cleaning (`data/processed/`):** Standardize column names, verify data types, check for missing values or duplicate rows, encode the binary target variable (`Depression`: `Yes` $\rightarrow 1$, `No` $\rightarrow 0$), and export the cleaned dataset to `../data/processed/student_depression_clean.csv`.
 3. **Train-Test Split (The Golden Rule):** Partition the dataset into an **80% training set** ($n = 3,571$) and a **20% held-out test set** ($n = 893$) prior to conducting any exploratory data analysis, summary statistics, or feature transformations. The test set remains strictly untouched until final model evaluation.
 4. **Exploratory Data Analysis (Training Set Only):** Compute summary statistics and generate Altair visualizations on `train_df` to inspect class balance, numerical feature skewness, and depression rates across categorical subgroups.
-5. **Model Training, Cross-Validation, and Evaluation:** Build a `scikit-learn` `ColumnTransformer` preprocessing pipeline inside `Pipeline` objects to avoid validation leakage, compare four candidate classifiers via 5-fold stratified cross-validation, and evaluate the top-performing model on the held-out test set.
+5. **Model Training, Cross-Validation, and Evaluation:** Build a scikit-learn ColumnTransformer preprocessing pipeline inside Pipeline objects to avoid validation leakage, evaluate a majority-class baseline (DummyClassifier) alongside a standard LogisticRegression classifier via 5-fold stratified cross-validation, and assess the final model on the held-out test set.
 
 ## 2.2 Model Selection and Evaluation Metrics
 
 * **Dummy Classifier (`most_frequent`):** Serves as a naive baseline predicting the majority class (`No`) for every student.
-* **Logistic Regression (Standard & Class-Balanced):** Models the log-odds of depression as a linear combination of standardized numerical features and encoded categorical indicators, offering direct interpretability via odds ratios.
+* **Logistic Regression (Standard):** Models the log-odds of depression as a linear combination of standardized numerical features and encoded categorical indicators, offering direct interpretability via odds ratios.
 
 
 # 3. Data Loading, Initial Inspection and Preprocessing
@@ -91,6 +93,7 @@ print(f"\nDuplicate Rows: {df.duplicated().sum()}")
 
 
 
+
 *So the data looks complete without any missing values and duplicated rows.*
 Next, we examine the distributions of our binary target variable, Depression, to check for class imbalance. Before that we shall transform the target column from string to boolean (0 and 1) and split the dataset into training and testing set.
 
@@ -101,11 +104,13 @@ df.head()
 
 
 
+
 Now save it as processed data in the processed folder.
 
 ```{python}
 df.to_csv('../data/processed/student_depression_clean.csv', index=False)
 ```
+
 
 
 
@@ -130,6 +135,7 @@ y_train = train_df['Depression']
 X_test = test_df.drop(columns=['Depression'])
 y_test = test_df['Depression']
 ```
+
 
 
 
@@ -177,6 +183,7 @@ text = bars.mark_text(
 
 
 
+
 Obviously the dataset we have is not balanced as the portion of 1 (Depression) is almost one-third of 0(Not depression). We might need to class_weight="balanced" to combat this problem.
 Therefore,  let's take a look into the distribution of numeric data and categorical features.
 
@@ -196,6 +203,7 @@ train_df.describe()
 
 train_df.describe(include=['object', 'category'])
 ```
+
 
 
 
@@ -245,6 +253,7 @@ alt.vconcat(*rows).resolve_scale(color='shared')
 
 
 
+
 According to the density plots by various numeric variables, the distribution of `CGPA` seems to be one of the important factors affecting the level of depression for a student.
 
 
@@ -274,6 +283,7 @@ for col in cat_cols:
 rows = [alt.hconcat(*charts[i:i+2], spacing=50) for i in range(0, len(charts), 2)]
 alt.vconcat(*rows, spacing=30).resolve_scale(color='shared')
 ```
+
 
 
 
@@ -332,6 +342,7 @@ selected_name = cv_results.loc[
     list(logistic_models), "Mean validation F1"
 ].idxmax()
 ```
+
 
 
 
@@ -408,6 +419,7 @@ plt.show()
 
 
 
+
 ## Result Discussion
 
 Overall, our model achieved an accuracy of 97.1% (0.971), substantially outperforming the majority-class baseline of 73.1% (0.731). The model's precision is 0.961, indicating that when it predicts a student has depression, it is correct the vast majority of the time, resulting in very few false alarms (false positives). However, our recall is slightly lower at 0.929. Comparing these two metrics shows that the model produces more false negatives than false positives, though the gap is relatively small.
@@ -428,6 +440,7 @@ coefficients = pd.Series(
 
 display(pd.concat([coefficients.head(5), coefficients.tail(5)]).round(3))
 ```
+
 
 
 
