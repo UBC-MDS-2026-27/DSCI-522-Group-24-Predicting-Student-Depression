@@ -1,21 +1,30 @@
-# Adapted from docker-uv-renv by Daniel Chen (MIT License)
-# https://github.com/chendaniely/docker-uv-renv
-
-# Start from Ubuntu Linux. It has no Python: uv installs it.
 FROM ubuntu:24.04
 
-# Copy the uv program into the image (0.13.7 pins uv's version)
+RUN apt-get update && apt-get install --yes \
+    curl \
+    git \
+    less \
+    make \
+    nano \
+    openssh-server
+
+RUN curl --location --output quarto.deb \
+    https://github.com/quarto-dev/quarto-cli/releases/download/v1.11.9/quarto-1.11.9-linux-$(dpkg --print-architecture).deb \
+    && apt-get install --yes ./quarto.deb \
+    && rm quarto.deb
+
 COPY --from=ghcr.io/astral-sh/uv:0.13.7 /uv /uvx /usr/local/bin/
 
-# Work in the /workspace folder inside the image
 WORKDIR /workspace
 
-# Put the packages in /opt/venv (not in a .venv folder in /workspace)
 ENV UV_PROJECT_ENVIRONMENT=/opt/venv
 
-# Copy only the files that list your packages
+RUN echo "UV_PROJECT_ENVIRONMENT=$UV_PROJECT_ENVIRONMENT" >> /etc/environment
+
 COPY pyproject.toml uv.lock .python-version ./
 
-# Install Python and the exact packages in uv.lock
-# (--locked: stop if uv.lock doesn't match pyproject.toml)
 RUN uv sync --locked
+
+RUN mkdir -p /run/sshd /root/.ssh
+
+CMD ["/usr/sbin/sshd", "-D"]
