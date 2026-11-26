@@ -16,50 +16,48 @@ On the held-out test set, logistic regression achieved an accuracy of 0.971, pre
 
 ## Report
 
-Read the [published HTML report](https://ubc-mds-2026-27.github.io/DSCI-522-Group-24-Predicting-Student-Depression/reports/Student_Depression_Analysis.html) or open the [PDF report](reports/Student_Depression_Analysis.pdf). The editable [Quarto source](reports/Student_Depression_Analysis.qmd) is also available.
+Read the [published HTML report](https://ubc-mds-2026-27.github.io/DSCI-522-Group-24-Predicting-Student-Depression/) or open the [PDF report](reports/Student_Depression_Analysis.pdf). The editable [Quarto source](reports/Student_Depression_Analysis.qmd) is also available.
 
 ## Usage
 
-Install [uv](https://docs.astral.sh/uv/getting-started/installation/) and [Quarto](https://quarto.org/docs/get-started/). The project requires Python 3.13 or later; the repository's [`.python-version`](.python-version) selects Python 3.14.
+We run the analysis in a Docker container so that users share the same software and package versions. The image is published on [Docker Hub](https://hub.docker.com/r/qscheide/dsci-522-group-24-predicting-student-depression).
 
-Clone the repository and move into the project directory:
+### Setup
+
+Install and launch [Docker](https://www.docker.com/get-started/), then clone this repository and move into its root directory:
 
 ```bash
 git clone https://github.com/UBC-MDS-2026-27/DSCI-522-Group-24-Predicting-Student-Depression.git
 cd DSCI-522-Group-24-Predicting-Student-Depression
 ```
 
-Create the project environment and install its dependencies:
+If you do not already have an Ed25519 SSH key, make one before running Docker Compose. Press Enter at each prompt to accept the defaults:
 
 ```bash
-uv sync
+ssh-keygen -t ed25519
 ```
 
-Render the HTML and PDF reports from the repository root:
+Without this key, Docker may create a folder named `~/.ssh/id_ed25519.pub`, and SSH access to the container will fail. If that happens, stop Compose and confirm that this path is an accidentally created empty folder, not a key file. Remove the folder with `rmdir ~/.ssh/id_ed25519.pub` on macOS/Linux or `Remove-Item "$HOME\.ssh\id_ed25519.pub"` in PowerShell, then create the key and retry.
+
+Download the project image:
 
 ```bash
-uv run quarto render
+docker compose pull
 ```
 
-The reports are written next to their source in `reports/`. The HTML is self-contained. The raw dataset is included at `data/raw/Student_Depression_Dataset.csv`. If the raw file is unavailable, the analysis code downloads it from Kaggle using `kagglehub`, which requires an internet connection.
+Run all commands below from the repository root. This project uses Python, so render the report in the container with:
 
-## Dependencies
+```bash
+docker compose run --rm analysis-env uv run quarto render
+```
 
-- [Python](https://www.python.org/) 3.13 or later (3.14 selected in `.python-version`)
-- [uv](https://docs.astral.sh/uv/) for environment and dependency management
-- [Quarto](https://quarto.org/) for rendering the report
-- Python packages listed in [`pyproject.toml`](pyproject.toml) and locked in [`uv.lock`](uv.lock), including pandas, NumPy, scikit-learn, Altair, and kagglehub
+The repository's [`_quarto.yml`](_quarto.yml) already lists `reports/*.qmd`, so no report path needs to be added to the render command. The HTML and PDF reports are written next to their source in `reports/`, and the processed dataset is updated at `data/processed/student_depression_clean.csv`. The HTML is self-contained. The raw dataset is included at `data/raw/Student_Depression_Dataset.csv`; if it is missing, the analysis downloads it from Kaggle using `kagglehub`, which requires an internet connection.
 
+The `--rm` option removes the container automatically when rendering finishes. The container includes Quarto and the Python version selected by [`.python-version`](.python-version); Python packages are specified in [`pyproject.toml`](pyproject.toml) and locked in [`uv.lock`](uv.lock).
 
-### Kaggle API Setup (Optional for Public Dataset)
-The dataset (`mkhoirulmustaqim/student-depression-detection-dataset`) is publicly hosted on Kaggle, so `kagglehub.dataset_download()` runs without authentication by default. 
+## Contributing
 
-If you encounter a `403 Forbidden` or rate-limit error during the fallback download, configure your Kaggle API token:
-1. Log in to [Kaggle](https://www.kaggle.com/), go to **Settings** → **API**, and click **Create New Token** to download `kaggle.json`.
-2. Place `kaggle.json` in your system's default directory:
-   - **macOS / Linux:** `~/.kaggle/kaggle.json` (run `chmod 600 ~/.kaggle/kaggle.json`)
-   - **Windows:** `C:\Users\<YourUsername>\.kaggle\kaggle.json`
-   
+See [`CONTRIBUTING.md`](CONTRIBUTING.md) for setup and instructions on changing the analysis.
 
 ## AI use
 
