@@ -10,5 +10,6 @@ format:
     number-sections: true
     code-fold: false
     theme: cosmo
+    format-links: false
   typst:
     fig-format: png
