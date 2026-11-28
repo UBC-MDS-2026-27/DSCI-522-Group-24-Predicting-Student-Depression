@@ -8,7 +8,7 @@ Course project for DSCI 522 (Reproducible and Trustworthy Data Science Workflows
 
 This project explores student depression using the [Student Depression Detection Dataset](https://www.kaggle.com/datasets/mkhoirulmustaqim/student-depression-detection-dataset). It contains 4,464 student records, 12 predictor variables covering demographic, socioeconomic, academic, relationship, and health information, and a binary `Depression` outcome (`Yes` or `No`).
 
-The analysis cleans and inspects the data, performs exploratory data analysis, and compares logistic regression with a majority-class baseline. The data is split into stratified training and test sets (80/20, random seed 42). Five-fold stratified cross-validation is used on the training data, and final metrics are reported on the held-out test data.
+**Research question:** To what extent can demographic, socioeconomic, academic, and self-reported well-being features predict the depression label recorded in this survey dataset? We investigate this by exploring the data and comparing logistic regression with a majority-class baseline, using an 80/20 stratified train-test split (random seed 42) and five-fold stratified cross-validation on the training data. Our goal is to evaluate prediction of the dataset's labels and examine associated features, not to diagnose depression.
 
 On the held-out test set, logistic regression achieved an accuracy of 0.971, precision of 0.961, recall of 0.929, and F1 score of 0.945. The majority-class baseline achieved an accuracy of 0.731. These results apply to this dataset and split and do not establish that the model generalizes to other student populations.
 
@@ -53,11 +53,15 @@ docker compose run --rm analysis-env uv run quarto render
 
 The repository's [`_quarto.yml`](_quarto.yml) already lists `reports/*.qmd`, so no report path needs to be added to the render command. The HTML and PDF reports are written next to their source in `reports/`, and the processed dataset is updated at `data/processed/student_depression_clean.csv`. The HTML is self-contained. The raw dataset is included at `data/raw/Student_Depression_Dataset.csv`; if it is missing, the analysis downloads it from Kaggle using `kagglehub`, which requires an internet connection.
 
-The `--rm` option removes the container automatically when rendering finishes. The container includes Quarto and the Python version selected by [`.python-version`](.python-version); Python packages are specified in [`pyproject.toml`](pyproject.toml) and locked in [`uv.lock`](uv.lock).
+The `--rm` option removes the container automatically when rendering finishes.
 
 ## Contributing
 
 See [`CONTRIBUTING.md`](CONTRIBUTING.md) for setup and instructions on changing the analysis.
+
+## Dependencies
+
+Docker with Docker Compose is required. The container includes Quarto and the Python version selected by [`.python-version`](.python-version); Python packages are specified in [`pyproject.toml`](pyproject.toml) and locked in [`uv.lock`](uv.lock). You do not need to install Python, uv, or Quarto on your computer.
 
 ## AI use
 
